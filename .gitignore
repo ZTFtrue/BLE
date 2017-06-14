@@ -1,0 +1,10 @@
+*.apk
+*.ap_
+*.dex
+*.class
+.gradle/
+build/
+.idea/
+.DS_Store
+*.iml
+
