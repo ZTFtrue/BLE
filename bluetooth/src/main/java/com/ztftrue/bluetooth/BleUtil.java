@@ -98,7 +98,6 @@ public class BleUtil {
     }
 
     private static double getDistance(int rssi) {
-        double power = (Math.abs(rssi) - A_Value) / (10 * n_Value);
-        return Math.pow(10, power);
+        return Math.pow(10, (Math.abs(rssi) - A_Value) / (10 * n_Value));
     }
 }

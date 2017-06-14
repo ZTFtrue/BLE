@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
@@ -24,7 +26,13 @@ public class BlueToothSacn {
     private Context context;
     private boolean exit = true;
 
-
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            callBack.callBlueTooth(bleClassList);
+            return false;
+        }
+    });
     private List<BleClass> bleClassList = new ArrayList<>();
     private List<String> bleUUID = new ArrayList<String>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
 
@@ -88,7 +96,8 @@ public class BlueToothSacn {
                         Thread.sleep(scanTime);
                         mBluetoothAdapter.stopLeScan(mLeScanCallback);
                         sortBleList();
-                        callBack.callBlueTooth(bleClassList);
+                        handler.sendEmptyMessage(1);
+
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();

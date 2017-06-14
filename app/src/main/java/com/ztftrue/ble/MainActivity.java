@@ -20,15 +20,11 @@ public class MainActivity extends AppCompatActivity {
         blueToothSacn.setCallBack(new BlueToothSacn.CallBack() {
             @Override
             public void callBlueTooth(final List<BleClass> bleClassesSet) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, String.valueOf(bleClassesSet.size()), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Toast.makeText(MainActivity.this, String.valueOf(bleClassesSet.size()), Toast.LENGTH_SHORT).show();
             }
         });
-//        BleUtil.setA_Value();//计算距离设置
+        BleUtil.setA_Value(80.0F);//计算距离设置
+        BleUtil.setN_Value(2.0F);//计算距离设置
         blueToothSacn.scan();
     }
 }
