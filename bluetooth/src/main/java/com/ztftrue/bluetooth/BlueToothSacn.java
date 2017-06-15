@@ -35,6 +35,10 @@ public class BlueToothSacn {
     });
     private List<BleClass> bleClassList = new ArrayList<>();
     private List<String> bleUUID = new ArrayList<String>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
+    private List<Integer> bleMajor = new ArrayList<Integer>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
+    private List<Integer> bleMinor = new ArrayList<Integer>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
+    private List<String> bleIbeaconName = new ArrayList<String>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
+    private List<String> bleMac = new ArrayList<String>();//过滤uuid,由于ble信号不稳定 ，TreeSet无法区分rssi
 
     public void exit() {
         this.exit = false;
@@ -91,6 +95,10 @@ public class BlueToothSacn {
                     try {
                         bleClassList.clear();
                         bleUUID.clear();
+                        bleMajor.clear();
+                        bleMinor.clear();
+                        bleIbeaconName.clear();
+                        bleMac.clear();
                         mBluetoothAdapter.startLeScan(mLeScanCallback);
 //                      mBluetoothAdapter.startDiscovery();
                         Thread.sleep(scanTime);
@@ -111,10 +119,18 @@ public class BlueToothSacn {
         @Override
         public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
             BleClass bleClass = BleUtil.getBLE(device, rssi, scanRecord);
-            if (bleClass != null && !bleUUID.contains(bleClass.getUuid())) {
+            if (bleClass != null && !bleUUID.contains(bleClass.getUuid())
+                    && !bleMajor.contains(bleClass.getMajor())
+                    && !bleMinor.contains(bleClass.getMinor())
+                    && !bleIbeaconName.contains(bleClass.getIbeaconName())
+                    && !bleMac.contains(bleClass.getMac())) {
                 bleClassList.add(bleClass);
                 Log.e("ztf", bleClassList.toString());
                 bleUUID.add(bleClass.getUuid());
+                bleMajor.add(bleClass.getMajor());
+                bleMinor.add(bleClass.getMinor());
+                bleIbeaconName.add(bleClass.getIbeaconName());
+                bleMac.add(bleClass.getMac());
                 Log.e("ztf", bleClass.getUuid());
                 Log.e("ztf", bleUUID.size() + "\t" + bleClassList.size());
             }
