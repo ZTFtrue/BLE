@@ -16,4 +16,5 @@ BLE get uuid
         BleUtil.setN_Value(2.0F);//计算距离设置
         blueToothSacn.scan();//开始扫描
         
+         blueToothSacn.exit();//退出
 ```
